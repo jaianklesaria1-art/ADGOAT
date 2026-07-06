@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About Us — AdGoat</title>
+  <link rel="icon" href="https://adgoat.in/wp-content/uploads/2025/02/fevi-150x150.png" sizes="32x32" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Aurora canvas ── */
+    #aurora-bg {
+      position: fixed; inset: 0; z-index: -1; overflow: hidden; background: #161b2e;
+    }
+    .aurora-blob {
+      position: absolute; width: 60vw; height: 60vw; border-radius: 50%;
+      filter: blur(110px); opacity: 0.25; mix-blend-mode: screen; will-change: transform;
+    }
+    .aurora-blob--1 { top: -10%; left: -10%; background: #00C2FF; opacity: 0.45; animation: auroraDrift1 22s ease-in-out infinite; }
+    .aurora-blob--2 { top: 5%; right: -15%; background: #9b51e0; animation: auroraDrift2 26s ease-in-out infinite; }
+    .aurora-blob--3 { bottom: -20%; left: 5%; background: #ec4899; animation: auroraDrift3 24s ease-in-out infinite; }
+    .aurora-blob--4 { bottom: 0; right: 0; background: #00C2FF; opacity: 0.4; animation: auroraDrift4 28s ease-in-out infinite; }
+    @keyframes auroraDrift1 { 0%,100%{transform:translate(0,0)scale(1)} 50%{transform:translate(8%,6%)scale(1.15)} }
+    @keyframes auroraDrift2 { 0%,100%{transform:translate(0,0)scale(1)} 50%{transform:translate(-6%,8%)scale(1.1)} }
+    @keyframes auroraDrift3 { 0%,100%{transform:translate(0,0)scale(1)} 50%{transform:translate(6%,-8%)scale(1.2)} }
+    @keyframes auroraDrift4 { 0%,100%{transform:translate(0,0)scale(1)} 50%{transform:translate(-8%,-6%)scale(1.1)} }
+    @media (prefers-reduced-motion:reduce) { .aurora-blob { animation: none !important; } }
+
+    /* ── Base type ── */
+    body { font-family: 'Inter', sans-serif; color: #fff; background: #161b2e; }
+    h1, h2, h3, h4 { font-family: 'Sora', sans-serif; letter-spacing: -0.02em; }
+    a { text-decoration: none; }
+
+    /* ── Nav (exact match with index.html) ── */
+    .pill-nav-container {
+      position: fixed;
+      left: 50%;
+      top: 18px;
+      transform: translateX(-50%);
+      z-index: 9999;
+      max-width: calc(100vw - 24px);
+    }
+    .pill-nav {
+      --nav-h: 42px;
+      --logo: 36px;
+      --pill-pad-x: 18px;
+      --pill-gap: 3px;
+      width: max-content;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    .pill-nav-items {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: var(--nav-h);
+      background: var(--base, #000);
+      border-radius: 9999px;
+    }
+    .pill-logo {
+      width: var(--nav-h);
+      height: var(--nav-h);
+      border-radius: 50%;
+      background: #ffffff;
+      padding: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-right: 8px;
+    }
+    .pill-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .pill-list { list-style: none; display: flex; align-items: stretch; gap: var(--pill-gap); margin: 0; padding: 3px; height: 100%; }
+    .pill-list > li { display: flex; height: 100%; }
+    .pill {
+      display: inline-flex; align-items: center; justify-content: center; height: 100%;
+      padding: 0 var(--pill-pad-x); background: var(--pill-bg, #fff); color: var(--pill-text, var(--base, #000));
+      text-decoration: none; border-radius: 9999px; box-sizing: border-box; font-weight: 600;
+      font-size: 16px; line-height: 0; text-transform: uppercase; letter-spacing: 0.2px;
+      white-space: nowrap; cursor: pointer; position: relative; overflow: hidden;
+    }
+    .pill .hover-circle {
+      position: absolute; left: 50%; bottom: 0; border-radius: 50%; background: var(--base, #000);
+      z-index: 1; display: block; pointer-events: none; will-change: transform;
+    }
+    .pill .label-stack { position: relative; display: inline-block; line-height: 1; z-index: 2; }
+    .pill .pill-label { position: relative; z-index: 2; display: inline-block; line-height: 1; will-change: transform; }
+    .pill .pill-label-hover {
+      position: absolute; left: 0; top: 0; color: var(--hover-text, #fff); z-index: 3;
+      display: inline-block; will-change: transform, opacity;
+    }
+    .pill.is-active::after {
+      content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+      width: 12px; height: 12px; background: var(--base, #000); border-radius: 50px; z-index: 4;
+    }
+    .pill-desktop-only { display: block; }
+    .pill-mobile-only  { display: none; }
+    .mobile-menu-button {
+      width: var(--nav-h); height: var(--nav-h); border-radius: 50%; background: var(--base, #000);
+      border: none; display: none; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; cursor: pointer; padding: 0; position: relative;
+    }
+    .hamburger-line { width: 16px; height: 2px; background: var(--pill-bg, #fff); border-radius: 1px; transition: all .2s; transform-origin: center; }
+    .mobile-menu-popover {
+      position: absolute; top: 3em; left: 0; right: 0; background: var(--base, #000); border-radius: 27px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.25); z-index: 998; opacity: 0; visibility: hidden; transform-origin: top center;
+    }
+    .mobile-menu-list { list-style: none; margin: 0; padding: 3px; display: flex; flex-direction: column; gap: 3px; }
+    .mobile-menu-popover .mobile-menu-link {
+      display: block; padding: 12px 16px; color: var(--pill-text,#000); background-color: var(--pill-bg,#fff);
+      text-decoration: none; font-size: 16px; font-weight: 500; border-radius: 50px; transition: all .2s;
+    }
+    .mobile-menu-popover .mobile-menu-link:hover { background-color: var(--base); color: var(--hover-text,#fff); }
+    @media (max-width: 768px) {
+      .pill-desktop-only { display: none; }
+      .pill-mobile-only  { display: block; }
+      .mobile-menu-button { display: flex; }
+    }
+
+    /* ── Shared layout tokens ── */
+    .page-wrap { padding-top: 88px; }
+    .section { padding: 56px 0; position: relative; overflow: hidden; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+    .section-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); }
+
+    /* Eyebrow label */
+    .eyebrow {
+      display: block; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      background: linear-gradient(135deg, #60a5fa, #ec4899);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 100px 0 56px;
+    }
+    .hero-title {
+      font-size: clamp(3.5rem, 9vw, 7.5rem); font-weight: 900; line-height: 0.92;
+      letter-spacing: -0.035em; color: #fff; margin-bottom: 24px;
+    }
+    .hero-title .grad {
+      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 45%, #ec4899 90%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-family: 'Sora', sans-serif; font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 600;
+      color: rgba(255,255,255,0.75); margin-bottom: 36px; letter-spacing: -0.01em;
+    }
+    .hero-desc {
+      font-size: 1.15rem; color: rgba(255,255,255,0.75); line-height: 1.8;
+      max-width: 640px; margin: 0 auto;
+    }
+
+    /* ── Mission two-col ── */
+    .mission-grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: start;
+    }
+    .mission-title {
+      font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; color: #fff;
+      line-height: 1.06; letter-spacing: -0.025em; margin-bottom: 28px;
+    }
+    .body-text { font-size: 1.05rem; color: rgba(255,255,255,0.75); line-height: 1.82; }
+    .body-text + .body-text { margin-top: 20px; }
+
+    /* Stat cards */
+    .stat-stack { display: flex; flex-direction: column; gap: 16px; }
+    .scard {
+      background: rgba(255,255,255,0.055); border: 1px solid rgba(255,255,255,0.11);
+      border-radius: 20px; padding: 32px 36px; backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px); transition: border-color .3s;
+    }
+    .scard:hover { border-color: rgba(255,255,255,0.22); }
+    .scard-num {
+      font-family: 'Sora', sans-serif; font-size: 2.6rem; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, #60a5fa, #ec4899);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .scard-label { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-top: 8px; }
+
+    /* ── Services row ── */
+    .services-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 44px; }
+    .stag {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: rgba(255,255,255,0.055); border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 9999px; padding: 12px 22px; font-size: 0.92rem; font-weight: 600;
+      color: rgba(255,255,255,0.88); backdrop-filter: blur(12px);
+    }
+    .stag::before {
+      content: ''; flex-shrink: 0; width: 7px; height: 7px; border-radius: 50%;
+      background: linear-gradient(135deg, #60a5fa, #ec4899);
+    }
+
+    /* ── Founders ── */
+    .founders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 60px; }
+    .fcard {
+      background: rgba(255,255,255,0.055); border: 1px solid rgba(255,255,255,0.11);
+      border-radius: 24px; overflow: hidden; backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px); display: flex; flex-direction: column;
+      transition: border-color .3s, transform .3s;
+    }
+    .fcard:hover { border-color: rgba(255,255,255,0.24); transform: translateY(-4px); }
+    .fcard-photo {
+      width: 100%; height: 280px; object-fit: cover; object-position: center top;
+      display: block; flex-shrink: 0;
+    }
+    .fcard-body { padding: 36px 40px; display: flex; flex-direction: column; gap: 20px; flex: 1; }
+    .fname { font-family: 'Sora', sans-serif; font-size: 1.5rem; font-weight: 800; color: #fff; }
+    .frole {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); margin-top: 5px;
+    }
+    .fbio { font-size: 1rem; color: rgba(255,255,255,0.75); line-height: 1.78; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .mission-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 640px) {
+      .founders-grid { grid-template-columns: 1fr; }
+      .hero-title { letter-spacing: -0.025em; }
+      .section { padding: 40px 0; }
+      .container { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="aurora-bg" aria-hidden="true">
+  <span class="aurora-blob aurora-blob--1"></span>
+  <span class="aurora-blob aurora-blob--2"></span>
+  <span class="aurora-blob aurora-blob--3"></span>
+  <span class="aurora-blob aurora-blob--4"></span>
+</div>
+
+<!-- ── Navigation ── -->
+<div class="pill-nav-container">
+  <nav class="pill-nav" aria-label="Primary" style="--base:#000;--pill-bg:#fff;--hover-text:#fff;--pill-text:#000;">
+    <a class="pill-logo" href="index.html" aria-label="Home" id="pill-logo-link">
+      <img src="https://ik.imagekit.io/jai777/ADgoat/Screenshot_2026-06-24_213637-removebg-preview.png" alt="AdGoat Logo" id="pill-logo-img">
+    </a>
+    <div class="pill-nav-items pill-desktop-only" id="pill-nav-items">
+      <ul class="pill-list" role="menubar">
+        <li role="none"><a role="menuitem" href="index.html" class="pill" data-index="0"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Home</span><span class="pill-label-hover" aria-hidden="true">Home</span></span></a></li>
+        <li role="none"><a role="menuitem" href="about.html" class="pill is-active" data-index="1"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">About</span><span class="pill-label-hover" aria-hidden="true">About</span></span></a></li>
+        <li role="none"><a role="menuitem" href="index.html#Services" class="pill" data-index="2"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Services</span><span class="pill-label-hover" aria-hidden="true">Services</span></span></a></li>
+        <li role="none"><a role="menuitem" href="index.html#ContactUs" class="pill" data-index="3"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Contact</span><span class="pill-label-hover" aria-hidden="true">Contact</span></span></a></li>
+      </ul>
+    </div>
+    <button class="mobile-menu-button pill-mobile-only" id="pill-mobile-toggle" aria-label="Toggle menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </nav>
+  <div class="mobile-menu-popover pill-mobile-only" id="pill-mobile-menu" style="--base:#000;--pill-bg:#fff;--pill-text:#000;--hover-text:#fff;">
+    <ul class="mobile-menu-list">
+      <li><a class="mobile-menu-link" href="index.html">Home</a></li>
+      <li><a class="mobile-menu-link" href="about.html">About</a></li>
+      <li><a class="mobile-menu-link" href="index.html#Services">Services</a></li>
+      <li><a class="mobile-menu-link" href="index.html#ContactUs">Contact</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ── Hero ── -->
+  <section class="hero" id="hero-section">
+    <div class="container">
+      <span class="eyebrow">About AdGoat</span>
+      <h1 class="hero-title">
+        <span class="grad">Greatest</span><br>Of All Times
+      </h1>
+      <p class="hero-sub">India's forward-thinking digital agency</p>
+      <p class="hero-desc">We are a digital agency specialising in helping influencers, creators, and brands thrive in the rapidly growing creator economy.</p>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── Mission ── -->
+  <section class="section" id="mission-section">
+    <div class="container">
+      <div class="mission-grid">
+        <div>
+          <span class="eyebrow">Our Mission</span>
+          <h2 class="mission-title">Empowering creators &amp; businesses to maximise their potential.</h2>
+          <p class="body-text">Our mission is simple: to empower creators and businesses to maximise their revenue potential, enhance their online presence, and elevate their reputation in the digital world.</p>
+          <p class="body-text" style="margin-top:20px;">In today's ever-evolving landscape, where creators are shaping trends and influencing audiences, AdGoat India stands at the forefront of this revolution — offering comprehensive, data-driven solutions from online reputation management to revenue optimisation strategies for creators.</p>
+          <p class="body-text" style="margin-top:20px;">At AdGoat, we believe in a personalised approach to every project, providing scalable solutions that amplify your presence, increase revenue, and boost your influence.</p>
+        </div>
+        <div class="stat-stack">
+          <div class="scard">
+            <div class="scard-num">2x–3x</div>
+            <div class="scard-label">Revenue growth delivered for clients</div>
+          </div>
+          <div class="scard">
+            <div class="scard-num">100+</div>
+            <div class="scard-label">Creators &amp; brands partnered</div>
+          </div>
+          <div class="scard">
+            <div class="scard-num">4</div>
+            <div class="scard-label">Core service verticals</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── Services ── -->
+  <section class="section" id="services-section">
+    <div class="container">
+      <span class="eyebrow">What We Do</span>
+      <h2 class="mission-title" style="max-width:580px;">Scalable solutions across four verticals.</h2>
+      <p class="body-text" style="max-width:640px;">From growing your Meta revenue to running performance ad campaigns and managing your brand reputation — we've built a focused set of services around what actually moves the needle.</p>
+      <div class="services-row">
+        <span class="stag">Meta Monetization</span>
+        <span class="stag">Digital Advertising</span>
+        <span class="stag">Influencer Marketing</span>
+        <span class="stag">Online Reputation Management</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── Founders ── -->
+  <section class="section" id="founders-section">
+    <div class="container">
+      <span class="eyebrow">Meet The Founders</span>
+      <h2 class="mission-title" style="max-width:520px;">The people behind AdGoat.</h2>
+      <div class="founders-grid">
+        <div class="fcard">
+          <img class="fcard-photo" src="https://adgoat.in/wp-content/uploads/2025/02/WhatsApp-Image-2025-02-21-at-18.44.54_51e336fa-1024x1024.jpg" alt="Shlok Nair" loading="eager">
+          <div class="fcard-body">
+            <div>
+              <div class="fname">Shlok Nair</div>
+              <div class="frole">Co-Founder</div>
+            </div>
+            <p class="fbio">Driving AdGoat's vision for the creator economy, Shlok brings a deep understanding of digital monetisation and influencer partnerships — helping brands and creators maximise their reach and revenue.</p>
+          </div>
+        </div>
+        <div class="fcard">
+          <img class="fcard-photo" src="https://adgoat.in/wp-content/uploads/2025/02/FB_IMG_1740142204361.jpg" alt="Deepesh Sawant" loading="eager">
+          <div class="fcard-body">
+            <div>
+              <div class="fname">Deepesh Sawant</div>
+              <div class="frole">Co-Founder</div>
+            </div>
+            <p class="fbio">With expertise in digital advertising and ORM, Deepesh leads AdGoat's strategic initiatives, ensuring every client benefits from data-driven approaches that amplify their online presence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-wrap -->
+
+<!-- ── GSAP + Nav interaction (same as index.html) ── -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script>
+(function () {
+  if (typeof gsap === 'undefined') return;
+  const ease = 'power3.out';
+  const pills = Array.from(document.querySelectorAll('#pill-nav-items .pill'));
+  const timelines = [];
+
+  function layout() {
+    pills.forEach((pill, i) => {
+      const circle = pill.querySelector('.hover-circle');
+      const label  = pill.querySelector('.pill-label');
+      const white  = pill.querySelector('.pill-label-hover');
+      if (!circle) return;
+      const rect = pill.getBoundingClientRect();
+      const w = rect.width, h = rect.height;
+      const R = ((w * w) / 4 + h * h) / (2 * h);
+      const D = Math.ceil(2 * R) + 2;
+      const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
+      const originY = D - delta;
+      circle.style.width  = D + 'px';
+      circle.style.height = D + 'px';
+      circle.style.bottom = -delta + 'px';
+      gsap.set(circle, { xPercent: -50, scale: 0, transformOrigin: `50% ${originY}px` });
+      if (label) gsap.set(label, { y: 0 });
+      if (white) gsap.set(white, { y: h + 12, opacity: 0 });
+      timelines[i]?.kill();
+      const tl = gsap.timeline({ paused: true });
+      tl.to(circle, { scale: 1.2, xPercent: -50, duration: 2, ease, overwrite: 'auto' }, 0);
+      if (label) tl.to(label, { y: -(h + 8), duration: 2, ease, overwrite: 'auto' }, 0);
+      if (white) {
+        gsap.set(white, { y: Math.ceil(h + 100), opacity: 0 });
+        tl.to(white, { y: 0, opacity: 1, duration: 2, ease, overwrite: 'auto' }, 0);
+      }
+      timelines[i] = tl;
+    });
+  }
+
+  layout();
+  window.addEventListener('resize', layout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout).catch(() => {});
+
+  const activeTweens = [];
+  pills.forEach((pill, i) => {
+    pill.addEventListener('mouseenter', () => {
+      const tl = timelines[i]; if (!tl) return;
+      activeTweens[i]?.kill();
+      activeTweens[i] = tl.tweenTo(tl.duration(), { duration: 0.3, ease, overwrite: 'auto' });
+    });
+    pill.addEventListener('mouseleave', () => {
+      const tl = timelines[i]; if (!tl) return;
+      activeTweens[i]?.kill();
+      activeTweens[i] = tl.tweenTo(0, { duration: 0.2, ease, overwrite: 'auto' });
+    });
+  });
+
+  const logoLink = document.getElementById('pill-logo-link');
+  const logoImg  = document.getElementById('pill-logo-img');
+  if (logoLink && logoImg) {
+    let logoTween;
+    logoLink.addEventListener('mouseenter', () => {
+      logoTween?.kill(); gsap.set(logoImg, { rotate: 0 });
+      logoTween = gsap.to(logoImg, { rotate: 360, duration: 0.6, ease });
+    });
+  }
+
+  const navItems = document.getElementById('pill-nav-items');
+  const logo     = document.getElementById('pill-logo-link');
+  gsap.set(logo,     { scale: 0 });
+  gsap.to(logo,      { scale: 1, duration: 0.6, ease });
+  gsap.set(navItems, { width: 0, overflow: 'hidden' });
+  gsap.to(navItems,  { width: 'auto', duration: 0.6, ease });
+
+  const toggle = document.getElementById('pill-mobile-toggle');
+  const menu   = document.getElementById('pill-mobile-menu');
+  let mobileOpen = false;
+  if (toggle && menu) {
+    gsap.set(menu, { visibility: 'hidden', opacity: 0 });
+    toggle.addEventListener('click', () => {
+      mobileOpen = !mobileOpen;
+      const lines = toggle.querySelectorAll('.hamburger-line');
+      if (mobileOpen) {
+        gsap.to(lines[0], { rotation: 45,  y: 3,  duration: 0.3, ease });
+        gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease });
+        gsap.set(menu, { visibility: 'visible' });
+        gsap.fromTo(menu, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease });
+      } else {
+        gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
+        gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
+        gsap.to(menu, { opacity: 0, y: 10, duration: 0.2, ease, onComplete: () => gsap.set(menu, { visibility: 'hidden' }) });
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
