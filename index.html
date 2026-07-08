@@ -529,6 +529,11 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                         border: none; display: none; flex-direction: column; align-items: center; justify-content: center;
                         gap: 4px; cursor: pointer; padding: 0; position: relative;
                         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+                        -webkit-tap-highlight-color: transparent;
+                    }
+                    .mobile-menu-button:active,
+                    .mobile-menu-button:focus {
+                        background: var(--base, #000);
                     }
                     .hamburger-line { width: 16px; height: 2px; background: var(--pill-bg, #fff); border-radius: 1px; transition: all 0.2s ease; transform-origin: center; }
                     .mobile-menu-popover {
@@ -1142,14 +1147,15 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
             .ag-legacy-hd { max-width: 720px; }
             .ag-legacy-tag {
               display: block;
-              font-family: 'Sora', monospace, sans-serif;
-              font-size: 11px;
-              font-weight: 600;
-              letter-spacing: 0.3em;
-              text-transform: uppercase;
+              font-family: 'Sora', sans-serif;
+              font-size: 2.5vw;
+              font-weight: 800;
+              letter-spacing: -0.01em;
+              text-transform: none;
               color: #ffffff;
               -webkit-text-fill-color: #ffffff;
-              margin-bottom: 24px;
+              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 10px 34px rgba(0, 0, 0, 0.75);
+              margin-bottom: 8px;
             }
             .ag-legacy-h2 {
               font-family: 'Sora', sans-serif;
@@ -1158,7 +1164,14 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
               color: #ffffff;
               line-height: 1.08;
               letter-spacing: -0.025em;
+              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 10px 34px rgba(0, 0, 0, 0.75);
               margin: 0 0 16px;
+            }
+            @media (max-width: 768px) {
+              .ag-legacy-tag,
+              .ag-legacy-h2 {
+                font-size: 28px !important;
+              }
             }
             .ag-legacy-desc {
               font-family: 'Sora', sans-serif;
@@ -1178,12 +1191,12 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
               border-radius: 16px;
               background: #0a0a0a;
               border: 1px solid rgba(255,255,255,0.05);
-              padding: 24px;
-              min-height: 200px;
+              padding: 18px;
+              min-height: 150px;
               display: flex;
               flex-direction: column;
               justify-content: space-between;
-              gap: 24px;
+              gap: 16px;
               transition: border-color 0.35s ease;
               cursor: default;
             }

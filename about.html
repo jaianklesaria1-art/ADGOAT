@@ -103,6 +103,11 @@
       width: var(--nav-h); height: var(--nav-h); border-radius: 50%; background: var(--base, #000);
       border: none; display: none; flex-direction: column; align-items: center; justify-content: center;
       gap: 4px; cursor: pointer; padding: 0; position: relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-menu-button:active,
+    .mobile-menu-button:focus {
+      background: var(--base, #000);
     }
     .hamburger-line { width: 16px; height: 2px; background: var(--pill-bg, #fff); border-radius: 1px; transition: all .2s; transform-origin: center; }
     .mobile-menu-popover {
