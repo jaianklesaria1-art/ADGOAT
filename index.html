@@ -1570,38 +1570,36 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                 <div class="elementor-element elementor-element-c7ef8a1 elementor-button-align-end elementor-mobile-button-align-center elementor-widget elementor-widget-form" data-id="c7ef8a1" data-element_type="widget" data-e-type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}" data-widget_type="form.default">
                 <div class="elementor-widget-container">
                             <form class="elementor-form" method="post" name="New Form">
-            <input type="hidden" name="post_id" value="8"/>
-            <input type="hidden" name="form_id" value="c7ef8a1"/>
-            <input type="hidden" name="referer_title" value="" />
-
-                            <input type="hidden" name="queried_id" value="8"/>
+            <input type="hidden" name="_subject" value="New enquiry from AdGoat website"/>
+            <input type="hidden" name="_template" value="table"/>
+            <input type="hidden" name="_captcha" value="false"/>
 
             <div class="elementor-form-fields-wrapper elementor-labels-">
                                 <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-50">
                                                 <label for="form-field-name" class="elementor-field-label elementor-screen-only">
                                 First Name                            </label>
-                                                        <input size="1" type="text" name="form_fields[name]" id="form-field-name" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="First Name*">
+                                                        <input size="1" type="text" name="First Name" id="form-field-name" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="First Name*" required>
                                             </div>
                                 <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_5e63ec7 elementor-col-50">
                                                 <label for="form-field-field_5e63ec7" class="elementor-field-label elementor-screen-only">
                                 Last Name                            </label>
-                                                        <input size="1" type="text" name="form_fields[field_5e63ec7]" id="form-field-field_5e63ec7" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Last Name*">
+                                                        <input size="1" type="text" name="Last Name" id="form-field-field_5e63ec7" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Last Name*" required>
                                             </div>
                                 <div class="elementor-field-type-tel elementor-field-group elementor-column elementor-field-group-field_f5f1e1b elementor-col-50">
                                                 <label for="form-field-field_f5f1e1b" class="elementor-field-label elementor-screen-only">
                                 Phone Number                            </label>
-                                <input size="1" type="tel" name="form_fields[field_f5f1e1b]" id="form-field-field_f5f1e1b" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Phone Number*" pattern="[0-9()#&amp;+*-=.]+" title="Only numbers and phone characters (#, -, *, etc) are accepted.">
+                                <input size="1" type="tel" name="Phone Number" id="form-field-field_f5f1e1b" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Phone Number*" pattern="[0-9()#&amp;+*-=.]+" title="Only numbers and phone characters (#, -, *, etc) are accepted." required>
 
                         </div>
                                 <div class="elementor-field-type-email elementor-field-group elementor-column elementor-field-group-email elementor-col-50 elementor-field-required">
                                                 <label for="form-field-email" class="elementor-field-label elementor-screen-only">
                                 Email Address*                            </label>
-                                                        <input size="1" type="email" name="form_fields[email]" id="form-field-email" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Email Address*" required="required" aria-required="true">
+                                                        <input size="1" type="email" name="Email Address" id="form-field-email" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Email Address*" required="required" aria-required="true">
                                             </div>
                                 <div class="elementor-field-type-textarea elementor-field-group elementor-column elementor-field-group-message elementor-col-100">
                                                 <label for="form-field-message" class="elementor-field-label elementor-screen-only">
                                 Message                            </label>
-                        <textarea class="elementor-field-textual elementor-field  elementor-size-sm" name="form_fields[message]" id="form-field-message" rows="4" placeholder="Tell us how we can help* "></textarea>                </div>
+                        <textarea class="elementor-field-textual elementor-field  elementor-size-sm" name="Message" id="form-field-message" rows="4" placeholder="Tell us how we can help* " required></textarea>                </div>
                                 <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
                     <button class="elementor-button elementor-size-md elementor-animation-grow" type="submit">
                         <span class="elementor-button-content-wrapper">
@@ -1619,15 +1617,43 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
             if (!btn) return;
             var label = btn.querySelector('.elementor-button-text');
             var originalText = label ? label.textContent : '';
-            form.addEventListener('submit', function () {
+            var statusEl = document.createElement('p');
+            statusEl.className = 'ag-form-status';
+            statusEl.style.cssText = 'margin:12px 0 0;font-size:0.9rem;text-align:center;min-height:1.2em;';
+            form.appendChild(statusEl);
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
                 btn.disabled = true;
                 btn.classList.add('is-loading');
                 if (label) label.textContent = 'Sending...';
-                setTimeout(function () {
-                    btn.disabled = false;
-                    btn.classList.remove('is-loading');
-                    if (label) label.textContent = originalText;
-                }, 8000);
+                statusEl.textContent = '';
+                statusEl.style.color = '';
+
+                fetch('https://formsubmit.co/ajax/team@adgoat.in', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json' },
+                    body: new FormData(form)
+                })
+                    .then(function (res) {
+                        if (!res.ok) throw new Error('Request failed');
+                        return res.json();
+                    })
+                    .then(function () {
+                        if (label) label.textContent = originalText;
+                        statusEl.textContent = "Thanks! We've got your message and will be in touch soon.";
+                        statusEl.style.color = '#4ade80';
+                        form.reset();
+                    })
+                    .catch(function () {
+                        if (label) label.textContent = originalText;
+                        statusEl.textContent = "Something went wrong - please email us directly at Team@adgoat.in";
+                        statusEl.style.color = '#f87171';
+                    })
+                    .finally(function () {
+                        btn.disabled = false;
+                        btn.classList.remove('is-loading');
+                    });
             });
         })();
         </script>
