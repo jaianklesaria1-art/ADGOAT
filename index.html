@@ -95,18 +95,56 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 }        </style>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
         <style id="site-redesign">
             /* Legacy Elementor header: empty nav (superseded by .pill-nav), but its logo is the
                visible brand mark in the hero corner - keep it, just recolor for the dark background. */
             header.elementor-location-header .elementor-widget-theme-site-logo img {
                 filter: brightness(0) invert(1);
             }
+            header.elementor-location-header .elementor-widget-theme-site-logo a:focus-visible {
+                outline: 2px solid #00C2FF;
+                outline-offset: 3px;
+            }
+            /* The legacy header's empty right-hand column (no menu, just leftover markup) sits
+               on top of the floating .pill-nav and was silently swallowing every click on
+               About/Services/Contact. Make the whole legacy header click-through except the
+               logo link, which is the only thing in it that should still be clickable. */
+            header.elementor-location-header {
+                pointer-events: none;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                z-index: 90 !important;
+                margin: 0 !important;
+                transition: opacity 0.25s ease;
+            }
+            header.elementor-location-header,
+            header.elementor-location-header *,
+            header.elementor-location-header::before,
+            header.elementor-location-header::after {
+                background: transparent !important;
+                background-color: transparent !important;
+                background-image: none !important;
+                box-shadow: none !important;
+            }
+            header.elementor-location-header a {
+                pointer-events: auto;
+            }
 
-            /* Keep the hero section exactly as it was */
             .elementor-element-b554563,
             .elementor-element-b554563 * {
-                font-family: 'Poppins', sans-serif !important;
+                font-family: 'Sora', sans-serif !important;
+            }
+
+            /* Hero: fill the full first screen on desktop instead of stopping short */
+            @media (min-width: 1025px) {
+                .elementor-element-b554563 {
+                    min-height: 100vh !important;
+                    justify-content: center !important;
+                }
             }
 
             /* Aurora UI: dark atmospheric canvas behind every non-hero section */
@@ -137,10 +175,20 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
             @keyframes auroraDrift4 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-8%, -6%) scale(1.1); } }
             @media (prefers-reduced-motion: reduce) {
                 .aurora-blob { animation: none !important; }
+                .ll-track, .creator-loop-track { animation: none !important; }
+                *, *::before, *::after {
+                    animation-duration: 0.001ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.001ms !important;
+                    scroll-behavior: auto !important;
+                }
             }
 
             /* New global type system for everything else */
-            body { font-family: 'Inter', sans-serif; }
+            body { font-family: 'Sora', sans-serif; }
+            *:not(.e-font-icon-svg):not(.e-font-icon-svg *) {
+                font-family: 'Sora', sans-serif !important;
+            }
             h1, h2, h3, h4, h5, h6, .elementor-heading-title,
             .gc-title, .stat-number, .stat-label, .creator-name,
             .whychoose-intro h3 {
@@ -170,17 +218,75 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
             .elementor-element-edc6e52 h2.elementor-heading-title,
             .elementor-element-7436109 h2.elementor-heading-title,
             .elementor-element-120a8ae h2.elementor-heading-title,
-            .elementor-element-c792c05 h2.elementor-heading-title {
-                font-size: 2.1rem;
+            .elementor-element-c792c05 h2.elementor-heading-title,
+            .elementor-element-28d5875 .elementor-heading-title,
+            .elementor-element-caeaa3a .elementor-heading-title,
+            .elementor-element-92d70f3 .elementor-heading-title {
+                font-size: 2.5vw !important;
                 font-weight: 800;
                 color: #ffffff !important;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 10px 34px rgba(0, 0, 0, 0.75);
+            }
+            @media (max-width: 768px) {
+                .elementor-element-edc6e52 h2.elementor-heading-title,
+                .elementor-element-7436109 h2.elementor-heading-title,
+                .elementor-element-120a8ae h2.elementor-heading-title,
+                .elementor-element-c792c05 h2.elementor-heading-title,
+                .elementor-element-28d5875 .elementor-heading-title,
+                .elementor-element-caeaa3a .elementor-heading-title,
+                .elementor-element-92d70f3 .elementor-heading-title {
+                    font-size: 28px !important;
+                }
+            }
+            .elementor-element-366bec7 .elementor-icon-box-title {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 10px 34px rgba(0, 0, 0, 0.75);
             }
             /* Shrink native Elementor section padding - was 80-100px, stacking up tall */
             .elementor-element-edc6e52,
-            .elementor-element-7436109,
-            .elementor-element-c792c05 {
+            .elementor-element-7436109 {
                 padding-top: 48px !important;
                 padding-bottom: 48px !important;
+            }
+            .elementor-element-c792c05 {
+                padding-top: 48px !important;
+                padding-bottom: 16px !important;
+            }
+            /* Mobile: sections were stacking with a lot of dead air between them - tighten
+               every section's top/bottom padding down to a much smaller, consistent rhythm. */
+            @media (max-width: 768px) {
+                .elementor-element-edc6e52,
+                .elementor-element-7436109 {
+                    padding-top: 24px !important;
+                    padding-bottom: 24px !important;
+                }
+                .elementor-element-c792c05 {
+                    padding-top: 24px !important;
+                    padding-bottom: 8px !important;
+                }
+                #ContactUs {
+                    padding-top: 4px !important;
+                    padding-bottom: 24px !important;
+                }
+                .ag-legacy { padding: 32px 0 !important; }
+                .creator-loop-outer { margin: 12px 0 16px !important; }
+                .gc-wrapper { margin-top: 16px !important; }
+                /* Elementor's own inner-container padding (80-100px+ per section on mobile) was
+                   the real source of the big gaps - the outer section padding above only ever
+                   controlled part of it. */
+                .elementor-element-edc6e52 > .e-con-inner,
+                .elementor-element-7436109 > .e-con-inner,
+                .elementor-element-c792c05 > .e-con-inner,
+                #ContactUs > .e-con-inner {
+                    padding-top: 8px !important;
+                    padding-bottom: 8px !important;
+                }
+            }
+            /* "Our Top Creators" / "Our Associates" heading wrappers were capped at 40%/51% width
+               (leftover from a two-column layout) - too narrow to fit the heading on one line */
+            .elementor-element-28d5875,
+            .elementor-element-caeaa3a {
+                max-width: 100% !important;
+                width: 100% !important;
             }
             .elementor-element-edc6e52 p, .elementor-element-edc6e52 span,
             .elementor-element-7436109 p, .elementor-element-7436109 span,
@@ -244,12 +350,41 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
             /* Contact section: glass panel on the aurora */
             #ContactUs {
                 min-height: 0 !important;
-                padding-top: 32px !important;
+                padding-top: 8px !important;
                 padding-bottom: 40px !important;
                 gap: 40px !important;
             }
+            /* Contact info + form: info text stays left, flush with the "We're here to make it
+               happen..." subheading above it; form stays right, flush with the Public Relations
+               card (both live in the same 1320px/20px box as .gc-wrapper) */
+            @media (min-width: 1025px) {
+                .elementor-element-54f9efce {
+                    justify-content: space-between !important;
+                    gap: 32px !important;
+                    max-width: 1320px !important;
+                    margin: 0 auto !important;
+                    padding: 0 20px !important;
+                    box-sizing: border-box !important;
+                }
+                .elementor-element-1c3780c1 {
+                    flex: 0 1 300px !important;
+                    max-width: 300px !important;
+                    text-align: left !important;
+                    margin-left: 60px !important;
+                }
+                .elementor-element-1c3780c1 .elementor-icon-box-wrapper,
+                .elementor-element-1c3780c1 .elementor-icon-box-content {
+                    align-items: flex-start !important;
+                    text-align: left !important;
+                }
+                .elementor-element-bac1d98 {
+                    flex: 0 1 460px !important;
+                    max-width: 460px !important;
+                    margin-right: 60px !important;
+                }
+            }
             #ContactUs .elementor-icon-box-title { font-family: 'Sora', sans-serif; color: #ffffff; }
-            #ContactUs .elementor-icon-box-description, #ContactUs .elementor-icon-box-description a { color: rgba(255, 255, 255, 0.8); }
+            #ContactUs .elementor-icon-box-description, #ContactUs .elementor-icon-box-description a { font-family: 'Sora', sans-serif; color: rgba(255, 255, 255, 0.8); }
             #ContactUs .elementor-field {
                 background: rgba(255, 255, 255, 0.08) !important;
                 border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -269,6 +404,11 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                 border-radius: 10px !important;
                 color: #ffffff !important;
                 font-weight: 600 !important;
+            }
+            #ContactUs button.elementor-button:disabled,
+            #ContactUs button.elementor-button.is-loading {
+                opacity: 0.7 !important;
+                cursor: not-allowed !important;
             }
 
             /* Footer blends into the aurora */
@@ -300,8 +440,8 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
         <div class="elementor-element elementor-element-3951372f e-con-full e-flex e-con e-child" data-id="3951372f" data-element_type="container" data-e-type="container">
                 <div class="elementor-element elementor-element-7b5ad75 elementor-widget elementor-widget-theme-site-logo elementor-widget-image" data-id="7b5ad75" data-element_type="widget" data-e-type="widget" data-widget_type="theme-site-logo.default">
                 <div class="elementor-widget-container">
-                                            <a href="index.html">
-            <img fetchpriority="high" width="924" height="232" src="https://adgoat.in/wp-content/uploads/2025/01/AdGoat.png" class="attachment-full size-full wp-image-18" alt="" srcset="https://adgoat.in/wp-content/uploads/2025/01/AdGoat.png 924w, https://adgoat.in/wp-content/uploads/2025/01/AdGoat-300x75.png 300w, https://adgoat.in/wp-content/uploads/2025/01/AdGoat-768x193.png 768w" sizes="(max-width: 924px) 100vw, 924px" />                </a>
+                                            <a href="index.html" aria-label="AdGoat home">
+            <img fetchpriority="high" width="924" height="232" src="https://adgoat.in/wp-content/uploads/2025/01/AdGoat.png" class="attachment-full size-full wp-image-18" alt="AdGoat" srcset="https://adgoat.in/wp-content/uploads/2025/01/AdGoat.png 924w, https://adgoat.in/wp-content/uploads/2025/01/AdGoat-300x75.png 300w, https://adgoat.in/wp-content/uploads/2025/01/AdGoat-768x193.png 768w" sizes="(max-width: 924px) 100vw, 924px" />                </a>
                                             </div>
                 </div>
                 </div>
@@ -316,11 +456,12 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                         left: 50%;
                         top: 18px;
                         transform: translateX(-50%);
-                        z-index: 9999;
+                        /* z-index scale: -1 background, 0-4 in-component layering, 50 nav dropdowns, 100 fixed nav */
+                        z-index: 100;
                         max-width: calc(100vw - 24px);
                     }
                     .pill-nav {
-                        --nav-h: 42px;
+                        --nav-h: 44px;
                         --logo: 36px;
                         --pill-pad-x: 18px;
                         --pill-gap: 3px;
@@ -336,6 +477,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                         height: var(--nav-h);
                         background: var(--base, #000);
                         border-radius: 9999px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
                     }
                     .pill-logo {
                         width: var(--nav-h);
@@ -373,17 +515,25 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                         content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
                         width: 12px; height: 12px; background: var(--base, #000); border-radius: 50px; z-index: 4;
                     }
+                    .pill:focus-visible,
+                    .pill-logo:focus-visible,
+                    .mobile-menu-button:focus-visible,
+                    .mobile-menu-link:focus-visible {
+                        outline: 2px solid #00C2FF;
+                        outline-offset: 3px;
+                    }
                     .pill-desktop-only { display: block; }
                     .pill-mobile-only { display: none; }
                     .mobile-menu-button {
                         width: var(--nav-h); height: var(--nav-h); border-radius: 50%; background: var(--base, #000);
                         border: none; display: none; flex-direction: column; align-items: center; justify-content: center;
                         gap: 4px; cursor: pointer; padding: 0; position: relative;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
                     }
                     .hamburger-line { width: 16px; height: 2px; background: var(--pill-bg, #fff); border-radius: 1px; transition: all 0.2s ease; transform-origin: center; }
                     .mobile-menu-popover {
                         position: absolute; top: 3em; left: 0; right: 0; background: var(--base, #000); border-radius: 27px;
-                        box-shadow: 0 8px 32px rgba(0,0,0,0.25); z-index: 998; opacity: 0; transform-origin: top center; visibility: hidden;
+                        box-shadow: 0 8px 32px rgba(0,0,0,0.25); z-index: 50; opacity: 0; transform-origin: top center; visibility: hidden;
                     }
                     .mobile-menu-list { list-style: none; margin: 0; padding: 3px; display: flex; flex-direction: column; gap: 3px; }
                     .mobile-menu-popover .mobile-menu-link {
@@ -392,9 +542,13 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                     }
                     .mobile-menu-popover .mobile-menu-link:hover { background-color: var(--base); color: var(--hover-text, #fff); }
                     @media (max-width: 768px) {
-                        .pill-desktop-only { display: none; }
-                        .pill-mobile-only { display: block; }
-                        .mobile-menu-button { display: flex; }
+                        .pill-desktop-only { display: none !important; }
+                        .pill-mobile-only { display: block !important; }
+                        .mobile-menu-button { display: flex !important; }
+                        .pill-logo { display: none !important; }
+                        .pill-nav-container { left: auto !important; right: 16px !important; transform: none !important; }
+                        .pill-nav { justify-content: flex-end !important; }
+                        .mobile-menu-popover { left: auto; right: 0; min-width: 180px; }
                     }
                     @media (max-width: 480px) {
                         .elementor-element-7b5ad75 img { max-width: 110px; height: auto; }
@@ -406,11 +560,11 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                             <img src="https://ik.imagekit.io/jai777/ADgoat/Screenshot_2026-06-24_213637-removebg-preview.png" alt="AdGoat Logo" id="pill-logo-img">
                         </a>
                         <div class="pill-nav-items pill-desktop-only" id="pill-nav-items">
-                            <ul class="pill-list" role="menubar">
-                                <li role="none"><a role="menuitem" href="index.html" class="pill is-active" data-index="0"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Home</span><span class="pill-label-hover" aria-hidden="true">Home</span></span></a></li>
-                                <li role="none"><a role="menuitem" href="about.html" class="pill" data-index="1"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">About</span><span class="pill-label-hover" aria-hidden="true">About</span></span></a></li>
-                                <li role="none"><a role="menuitem" href="#Services" class="pill" data-index="2"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Services</span><span class="pill-label-hover" aria-hidden="true">Services</span></span></a></li>
-                                <li role="none"><a role="menuitem" href="#ContactUs" class="pill" data-index="3"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Contact</span><span class="pill-label-hover" aria-hidden="true">Contact</span></span></a></li>
+                            <ul class="pill-list">
+                                <li><a href="index.html" class="pill is-active" data-index="0"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Home</span><span class="pill-label-hover" aria-hidden="true">Home</span></span></a></li>
+                                <li><a href="about.html" class="pill" data-index="1"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">About</span><span class="pill-label-hover" aria-hidden="true">About</span></span></a></li>
+                                <li><a href="#Services" class="pill" data-index="2"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Services</span><span class="pill-label-hover" aria-hidden="true">Services</span></span></a></li>
+                                <li><a href="#ContactUs" class="pill" data-index="3"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Contact</span><span class="pill-label-hover" aria-hidden="true">Contact</span></span></a></li>
                             </ul>
                         </div>
                         <button class="mobile-menu-button pill-mobile-only" id="pill-mobile-toggle" aria-label="Toggle menu">
@@ -432,6 +586,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                     (function () {
                         if (typeof gsap === 'undefined') return;
                         const ease = 'power3.out';
+                        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                         const pills = Array.from(document.querySelectorAll('#pill-nav-items .pill'));
                         const timelines = [];
 
@@ -468,29 +623,31 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                             });
                         }
 
-                        layout();
-                        window.addEventListener('resize', layout);
-                        if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout).catch(() => {});
+                        if (!reduceMotion) {
+                            layout();
+                            window.addEventListener('resize', layout);
+                            if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout).catch(() => {});
 
-                        const activeTweens = [];
-                        pills.forEach((pill, i) => {
-                            pill.addEventListener('mouseenter', () => {
-                                const tl = timelines[i];
-                                if (!tl) return;
-                                activeTweens[i]?.kill();
-                                activeTweens[i] = tl.tweenTo(tl.duration(), { duration: 0.3, ease, overwrite: 'auto' });
+                            const activeTweens = [];
+                            pills.forEach((pill, i) => {
+                                pill.addEventListener('mouseenter', () => {
+                                    const tl = timelines[i];
+                                    if (!tl) return;
+                                    activeTweens[i]?.kill();
+                                    activeTweens[i] = tl.tweenTo(tl.duration(), { duration: 0.3, ease, overwrite: 'auto' });
+                                });
+                                pill.addEventListener('mouseleave', () => {
+                                    const tl = timelines[i];
+                                    if (!tl) return;
+                                    activeTweens[i]?.kill();
+                                    activeTweens[i] = tl.tweenTo(0, { duration: 0.2, ease, overwrite: 'auto' });
+                                });
                             });
-                            pill.addEventListener('mouseleave', () => {
-                                const tl = timelines[i];
-                                if (!tl) return;
-                                activeTweens[i]?.kill();
-                                activeTweens[i] = tl.tweenTo(0, { duration: 0.2, ease, overwrite: 'auto' });
-                            });
-                        });
+                        }
 
                         const logoLink = document.getElementById('pill-logo-link');
                         const logoImg = document.getElementById('pill-logo-img');
-                        if (logoLink && logoImg) {
+                        if (logoLink && logoImg && !reduceMotion) {
                             let logoTween;
                             logoLink.addEventListener('mouseenter', () => {
                                 logoTween?.kill();
@@ -501,32 +658,53 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 
                         const navItems = document.getElementById('pill-nav-items');
                         const logo = document.getElementById('pill-logo-link');
-                        gsap.set(logo, { scale: 0 });
-                        gsap.to(logo, { scale: 1, duration: 0.6, ease });
-                        gsap.set(navItems, { width: 0, overflow: 'hidden' });
-                        gsap.to(navItems, { width: 'auto', duration: 0.6, ease });
+                        if (reduceMotion) {
+                            gsap.set(logo, { scale: 1 });
+                            gsap.set(navItems, { width: 'auto' });
+                        } else {
+                            gsap.set(logo, { scale: 0 });
+                            gsap.to(logo, { scale: 1, duration: 0.6, ease });
+                            gsap.set(navItems, { width: 0, overflow: 'hidden' });
+                            gsap.to(navItems, { width: 'auto', duration: 0.6, ease });
+                        }
 
                         const toggle = document.getElementById('pill-mobile-toggle');
                         const menu = document.getElementById('pill-mobile-menu');
                         let mobileOpen = false;
                         if (toggle && menu) {
                             gsap.set(menu, { visibility: 'hidden', opacity: 0 });
+                            const openDur = reduceMotion ? 0 : 0.3;
+                            const closeDur = reduceMotion ? 0 : 0.2;
                             toggle.addEventListener('click', () => {
                                 mobileOpen = !mobileOpen;
                                 const lines = toggle.querySelectorAll('.hamburger-line');
                                 if (mobileOpen) {
-                                    gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease });
-                                    gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease });
+                                    gsap.to(lines[0], { rotation: 45, y: 3, duration: openDur, ease });
+                                    gsap.to(lines[1], { rotation: -45, y: -3, duration: openDur, ease });
                                     gsap.set(menu, { visibility: 'visible' });
-                                    gsap.fromTo(menu, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease });
+                                    gsap.fromTo(menu, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: openDur, ease });
                                 } else {
-                                    gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
-                                    gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
-                                    gsap.to(menu, { opacity: 0, y: 10, duration: 0.2, ease, onComplete: () => gsap.set(menu, { visibility: 'hidden' }) });
+                                    gsap.to(lines[0], { rotation: 0, y: 0, duration: openDur, ease });
+                                    gsap.to(lines[1], { rotation: 0, y: 0, duration: openDur, ease });
+                                    gsap.to(menu, { opacity: 0, y: 10, duration: closeDur, ease, onComplete: () => gsap.set(menu, { visibility: 'hidden' }) });
                                 }
                             });
                         }
                     })();
+                </script>
+                <script>
+                /* Fade out the legacy header's AdGoat wordmark as soon as scrolling starts -
+                   only the pill nav should stay visible while scrolling. */
+                (function () {
+                    var header = document.querySelector('header.elementor-location-header');
+                    if (!header) return;
+                    function update() {
+                        var scrollY = window.scrollY || window.pageYOffset;
+                        header.style.opacity = scrollY > 20 ? '0' : '1';
+                    }
+                    window.addEventListener('scroll', update, { passive: true });
+                    update();
+                })();
                 </script>
                 <script>
                 /* Scroll-spy: move the active dot to whichever section is in view */
@@ -571,6 +749,17 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                         color: #ffffff !important;
                         text-shadow: 0 2px 18px rgba(0,0,0,0.55);
                     }
+                    .elementor-element-fb2b541 .elementor-heading-title {
+                        font-size: 64px !important;
+                    }
+                    .elementor-element-8ea9e21 .elementor-heading-title {
+                        font-size: 40px !important;
+                    }
+                    @media (max-width: 480px) {
+                        .elementor-element-8ea9e21 .elementor-heading-title {
+                            font-size: 32px !important;
+                        }
+                    }
                     .elementor-element-1daa374 .elementor-button {
                         color: #ffffff;
                     }
@@ -593,11 +782,11 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                 </div>
                 <div class="elementor-element elementor-element-fb2b541 elementor-hidden-tablet elementor-hidden-mobile elementor-invisible elementor-widget elementor-widget-heading" data-id="fb2b541" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
-                    <h2 class="elementor-heading-title elementor-size-default">Your Gateway to <br> 2x-3x Revenue Growth</h2>                </div>
+                    <h2 class="elementor-heading-title elementor-size-default">Your Gateway to <br> 2x&#8209;3x Revenue Growth</h2>                </div>
                 </div>
                 <div class="elementor-element elementor-element-8ea9e21 elementor-hidden-desktop elementor-invisible elementor-widget elementor-widget-heading" data-id="8ea9e21" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
-                    <h2 class="elementor-heading-title elementor-size-default">Your Gateway to 2x-3x Revenue Growth</h2>                </div>
+                    <h2 class="elementor-heading-title elementor-size-default">Your Gateway to<br>2x-3x Revenue<br>Growth</h2>                </div>
                 </div>
                 <div class="elementor-element elementor-element-7974d09 elementor-invisible elementor-widget elementor-widget-heading" data-id="7974d09" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
@@ -621,8 +810,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
                     <div class="e-con-inner">
                 <div class="elementor-element elementor-element-28d5875 elementor-widget__width-initial elementor-invisible elementor-widget elementor-widget-heading" data-id="28d5875" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
-                    <h2 class="elementor-heading-title elementor-size-default">Our Top
-Creators</h2>                </div>
+                    <h2 class="elementor-heading-title elementor-size-default">Our Top Creators</h2>                </div>
                 </div>
 
 
@@ -646,7 +834,7 @@ Creators</h2>                </div>
                         backdrop-filter: blur(14px);
                         -webkit-backdrop-filter: blur(14px);
                         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-                        transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+                        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
                     }
                     .creator-card:hover {
                         transform: translateY(-6px);
@@ -659,7 +847,7 @@ Creators</h2>                </div>
                         object-fit: cover;
                         display: block;
                         border-radius: 16px;
-                        transition: transform 0.5s ease;
+                        transition: transform 0.25s ease;
                     }
                     .creator-card:hover img { transform: scale(1.04); }
                     .creator-placeholder {
@@ -675,7 +863,7 @@ Creators</h2>                </div>
                         font-weight: 900;
                         color: rgba(255,255,255,0.9);
                         letter-spacing: -0.02em;
-                        transition: transform 0.5s ease;
+                        transition: transform 0.25s ease;
                     }
                     .creator-card:hover .creator-placeholder { transform: scale(1.04); }
                     .creator-card .creator-name {
@@ -696,10 +884,11 @@ Creators</h2>                </div>
                         width: 100%;
                         overflow: hidden;
                         height: 150px;
-                        margin: 40px 0 60px;
+                        margin: 24px 0 10px;
                     }
                     .ll-track {
                         display: flex;
+                        flex-wrap: nowrap;
                         align-items: center;
                         width: max-content;
                         height: 100%;
@@ -716,22 +905,23 @@ Creators</h2>                </div>
                     }
                     .ll-seq {
                         display: flex;
+                        flex-wrap: nowrap;
                         align-items: center;
                     }
                     .ll-item {
                         flex-shrink: 0;
-                        padding: 0 56px;
+                        padding: 0 24px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                     }
                     .ll-item img {
-                        height: 88px;
+                        height: 120px;
                         width: auto;
                         object-fit: contain;
                         background: #fff;
-                        border-radius: 12px;
-                        padding: 12px 24px;
+                        border-radius: 14px;
+                        padding: 14px 28px;
                         box-sizing: border-box;
                         display: block;
                         pointer-events: none;
@@ -740,8 +930,44 @@ Creators</h2>                </div>
                     @media (max-width: 1024px) {
                         .creators-grid { grid-template-columns: repeat(3, 1fr); }
                     }
-                    @media (max-width: 640px) {
-                        .creators-grid { grid-template-columns: repeat(2, 1fr); }
+                    /* Note: below 768px the grid is replaced entirely by the auto-looping
+                       strip below, so no narrower column-count breakpoint is needed here. */
+
+                    /* Mobile: swap the grid for an auto-looping horizontal strip */
+                    .creator-loop-outer {
+                        display: none;
+                        width: 100%;
+                        overflow: hidden;
+                        margin: 24px 0 40px;
+                    }
+                    .creator-loop-track {
+                        display: flex;
+                        width: max-content;
+                        will-change: transform;
+                        user-select: none;
+                        animation: ll-scroll var(--cl-dur, 40s) linear infinite;
+                        animation-play-state: paused;
+                    }
+                    .creator-loop-outer.ll-ready .creator-loop-track {
+                        animation-play-state: running;
+                    }
+                    .creator-loop-seq {
+                        display: flex;
+                        gap: 16px;
+                        padding: 0 8px;
+                    }
+                    .creator-loop-seq .creator-card {
+                        width: 148px;
+                        flex-shrink: 0;
+                    }
+                    @media (max-width: 768px) {
+                        .creators-grid { display: none; }
+                        .creator-loop-outer { display: block; }
+                    }
+                    @media (max-width: 768px) {
+                        .ll-outer { height: 80px; margin: 12px 0 6px; }
+                        .ll-item { padding: 0 10px; }
+                        .ll-item img { height: 60px; padding: 8px 14px; border-radius: 10px; }
                     }
                 </style>
                 <div class="creators-grid">
@@ -808,30 +1034,83 @@ Creators</h2>                </div>
                         <p class="creator-name">Pratyaksh Rajbhatt</p>
                     </div>
                 </div>
+                <div class="creator-loop-outer" id="creators-loop">
+                    <div class="creator-loop-track">
+                        <!-- copy 1 -->
+                        <div class="creator-loop-seq" aria-hidden="false">
+                            <div class="creator-card"><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Raj_Shamani.jpg/500px-Raj_Shamani.jpg" alt="Raj Shamani" /><p class="creator-name">Raj Shamani</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Kushal-Lodha.jpg" alt="Kushal Lodha" /><p class="creator-name">Kushal Lodha</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Sarthak-Sachdeva.jpg" alt="Sarthak Sachdeva" /><p class="creator-name">Sarthak Sachdeva</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Ayush-Bhandari.jpg" alt="Aayush Bhandari" /><p class="creator-name">Aayush Bhandari</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Ankit-.jpg" alt="Ankit Awasthi" /><p class="creator-name">Ankit Awasthi</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Paayal-Jain-819x1024.jpg" alt="Paayal Jain" /><p class="creator-name">Paayal Jain</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Tena-.jpg" alt="Tena Jain" /><p class="creator-name">Tena Jain</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Nikki-Tamboli.jpg" alt="Nikki Tamboli" /><p class="creator-name">Nikki Tamboli</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Ansh-Pandit.jpg" alt="Ansh Pandit" /><p class="creator-name">Ansh Pandit</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/476069670_18486254317029291_7101163007650062042_n-1.jpg" alt="Sahil Choudhary" /><p class="creator-name">Sahil Choudhary</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Arham-Abbasi.jpg" alt="Arham Abbasi" /><p class="creator-name">Arham Abbasi</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/335554180_1873659396324676_8978941283630394494_n.jpg" alt="Abhishek Agrawal" /><p class="creator-name">Abhishek Agrawal</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Junaid-Malik.jpg" alt="Junaid Malik" /><p class="creator-name">Junaid Malik</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Pratyaksh-Rajbhatt.jpg" alt="Pratyaksh Rajbhatt" /><p class="creator-name">Pratyaksh Rajbhatt</p></div>
+                        </div>
+                        <!-- copy 2 — identical, makes translateX(-50%) a seamless loop -->
+                        <div class="creator-loop-seq" aria-hidden="true">
+                            <div class="creator-card"><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Raj_Shamani.jpg/500px-Raj_Shamani.jpg" alt="" /><p class="creator-name">Raj Shamani</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Kushal-Lodha.jpg" alt="" /><p class="creator-name">Kushal Lodha</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Sarthak-Sachdeva.jpg" alt="" /><p class="creator-name">Sarthak Sachdeva</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Ayush-Bhandari.jpg" alt="" /><p class="creator-name">Aayush Bhandari</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Ankit-.jpg" alt="" /><p class="creator-name">Ankit Awasthi</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Paayal-Jain-819x1024.jpg" alt="" /><p class="creator-name">Paayal Jain</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Tena-.jpg" alt="" /><p class="creator-name">Tena Jain</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Nikki-Tamboli.jpg" alt="" /><p class="creator-name">Nikki Tamboli</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Ansh-Pandit.jpg" alt="" /><p class="creator-name">Ansh Pandit</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/476069670_18486254317029291_7101163007650062042_n-1.jpg" alt="" /><p class="creator-name">Sahil Choudhary</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Arham-Abbasi.jpg" alt="" /><p class="creator-name">Arham Abbasi</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/335554180_1873659396324676_8978941283630394494_n.jpg" alt="" /><p class="creator-name">Abhishek Agrawal</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Junaid-Malik.jpg" alt="" /><p class="creator-name">Junaid Malik</p></div>
+                            <div class="creator-card"><img loading="lazy" src="https://adgoat.in/wp-content/uploads/2025/02/Pratyaksh-Rajbhatt.jpg" alt="" /><p class="creator-name">Pratyaksh Rajbhatt</p></div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                (function () {
+                    var outer = document.getElementById('creators-loop');
+                    if (!outer) return;
+                    var seq = outer.querySelector('.creator-loop-seq');
+                    if (!seq) return;
+                    function init() {
+                        var w = seq.offsetWidth;
+                        if (w === 0) { setTimeout(init, 100); return; }
+                        outer.style.setProperty('--cl-dur', (w / 50).toFixed(1) + 's');
+                        outer.classList.add('ll-ready');
+                    }
+                    if (document.readyState === 'complete') { init(); }
+                    else { window.addEventListener('load', init); }
+                })();
+                </script>
         <div class="elementor-element elementor-element-7436109 e-flex e-con-boxed e-con e-parent" data-id="7436109" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                     <div class="e-con-inner">
                 <div class="elementor-element elementor-element-caeaa3a elementor-widget__width-initial elementor-invisible elementor-widget elementor-widget-heading" data-id="caeaa3a" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
-                    <h2 class="elementor-heading-title elementor-size-default">Our
-Associates </h2>                </div>
+                    <h2 class="elementor-heading-title elementor-size-default">Our Associates</h2>                </div>
                 </div>
                 <div class="ll-outer" id="assoc-loop">
                     <div class="ll-track">
                         <!-- copy 1 -->
                         <div class="ll-seq" aria-hidden="false">
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/meta-logo.webp" alt="Meta" /></div>
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/images-100.jpeg.jpg" alt="Associate" /></div>
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/SETindialogo_new-1.png" alt="SET India" /></div>
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/channels4_profile.jpg" alt="Associate" /></div>
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/channels4_profile-1.jpg" alt="Associate" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/meta-logo.webp" alt="Meta" loading="lazy" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/images-100.jpeg.jpg" alt="Eros Now" loading="lazy" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/SETindialogo_new-1.png" alt="SET India" loading="lazy" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/channels4_profile.jpg" alt="Dhruv Records" loading="lazy" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/channels4_profile-1.jpg" alt="WAM India Movies" loading="lazy" /></div>
                         </div>
                         <!-- copy 2 — identical, makes translateX(-50%) a seamless loop -->
                         <div class="ll-seq" aria-hidden="true">
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/meta-logo.webp" alt="" /></div>
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/images-100.jpeg.jpg" alt="" /></div>
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/SETindialogo_new-1.png" alt="" /></div>
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/channels4_profile.jpg" alt="" /></div>
-                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/channels4_profile-1.jpg" alt="" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/meta-logo.webp" alt="" loading="lazy" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/images-100.jpeg.jpg" alt="" loading="lazy" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/SETindialogo_new-1.png" alt="" loading="lazy" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/channels4_profile.jpg" alt="" loading="lazy" /></div>
+                            <div class="ll-item"><img src="https://adgoat.in/wp-content/uploads/2025/02/channels4_profile-1.jpg" alt="" loading="lazy" /></div>
                         </div>
                     </div>
                 </div>
@@ -874,7 +1153,7 @@ Associates </h2>                </div>
             }
             .ag-legacy-h2 {
               font-family: 'Sora', sans-serif;
-              font-size: clamp(2rem, 3.5vw, 3rem);
+              font-size: 2.5vw;
               font-weight: 900;
               color: #ffffff;
               line-height: 1.08;
@@ -883,7 +1162,7 @@ Associates </h2>                </div>
             }
             .ag-legacy-desc {
               font-family: 'Sora', sans-serif;
-              font-size: 1.1rem;
+              font-size: 22px;
               color: rgba(255,255,255,0.65);
               line-height: 1.75;
               margin: 0;
@@ -915,11 +1194,11 @@ Associates </h2>                </div>
               background-size: cover;
               background-position: center;
               filter: grayscale(40%);
-              opacity: 0.4;
+              opacity: 0.1;
               transition: opacity 0.7s ease, transform 0.7s ease;
               pointer-events: none;
             }
-            .ag-card:hover .ag-card-bg { opacity: 0.62; transform: scale(1.05); }
+            .ag-card:hover .ag-card-bg { opacity: 0.2; transform: scale(1.05); }
             .ag-card-veil {
               position: absolute;
               inset: 0;
@@ -939,11 +1218,11 @@ Associates </h2>                </div>
             .ag-card-num {
               display: block;
               font-family: 'Sora', sans-serif;
-              font-size: clamp(2.2rem, 3vw, 2.75rem);
+              font-size: clamp(1.5rem, 2vw, 1.9rem);
               font-weight: 900;
               color: #fff;
               line-height: 1;
-              margin-bottom: 8px;
+              margin-bottom: 6px;
             }
             .ag-card-lbl {
               display: block;
@@ -951,13 +1230,13 @@ Associates </h2>                </div>
               font-size: 10px;
               letter-spacing: 0.22em;
               text-transform: uppercase;
-              color: rgba(255,255,255,0.3);
+              color: rgba(255,255,255,0.65);
               margin-bottom: 14px;
             }
             .ag-card-copy {
               font-family: 'Sora', sans-serif;
               font-size: 0.83rem;
-              color: rgba(255,255,255,0.35);
+              color: rgba(255,255,255,0.65);
               line-height: 1.65;
               margin: 0;
             }
@@ -972,7 +1251,7 @@ Associates </h2>                </div>
             .ag-legacy-grid .ag-card:nth-child(2) { transition-delay: 0.1s; }
             .ag-legacy-grid .ag-card:nth-child(3) { transition-delay: 0.2s; }
             @media (max-width: 900px) { .ag-legacy-grid { grid-template-columns: 1fr; } }
-            @media (max-width: 600px) { .ag-legacy-inner { padding: 0 20px; } .ag-legacy { padding: 80px 0 !important; } }
+            @media (max-width: 600px) { .ag-legacy-inner { padding: 0 20px; } .ag-legacy { padding: 32px 0 !important; } }
           </style>
 
           <div class="ag-legacy-inner">
@@ -988,7 +1267,7 @@ Associates </h2>                </div>
               <div class="ag-card ag-fade">
                 <div class="ag-card-bg" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop');"></div>
                 <div class="ag-card-veil"></div>
-                <svg class="ag-card-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="ag-card-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
                 </svg>
                 <div class="ag-card-body">
@@ -1001,7 +1280,7 @@ Associates </h2>                </div>
               <div class="ag-card ag-fade">
                 <div class="ag-card-bg" style="background-image:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop');"></div>
                 <div class="ag-card-veil"></div>
-                <svg class="ag-card-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="ag-card-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
                 </svg>
                 <div class="ag-card-body">
@@ -1014,7 +1293,7 @@ Associates </h2>                </div>
               <div class="ag-card ag-fade">
                 <div class="ag-card-bg" style="background-image:url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1200&auto=format&fit=crop');"></div>
                 <div class="ag-card-veil"></div>
-                <svg class="ag-card-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="ag-card-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
@@ -1051,7 +1330,7 @@ Associates </h2>                </div>
                     .gc-wrapper {
                         width: 100%;
                         max-width: 1320px;
-                        margin: 32px auto 40px;
+                        margin: 32px auto 0;
                         padding: 0 20px;
                         box-sizing: border-box;
                     }
@@ -1070,7 +1349,7 @@ Associates </h2>                </div>
                         border-radius: 18px;
                         padding: 26px;
                         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-                        transition: transform 0.35s ease, box-shadow 0.35s ease;
+                        transition: transform 0.25s ease, box-shadow 0.25s ease;
                     }
                     .gc-card:hover {
                         transform: translateY(-6px) scale(1.02);
@@ -1089,7 +1368,7 @@ Associates </h2>                </div>
                         border-radius: 50%;
                         background: rgba(255, 255, 255, 0.45);
                         pointer-events: none;
-                        transition: transform 0.35s ease;
+                        transition: transform 0.25s ease;
                     }
                     .gc-card:hover .gc-shape { transform: scale(1.15) rotate(8deg); }
                     .gc-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
@@ -1121,6 +1400,11 @@ Associates </h2>                </div>
                     }
                     .gc-arrow { width: 16px; height: 16px; transition: transform 0.3s ease; }
                     .gc-cta:hover .gc-arrow { transform: translateX(4px); }
+                    .gc-cta:focus-visible {
+                        outline: 2px solid #111827;
+                        outline-offset: 3px;
+                        border-radius: 4px;
+                    }
                     @media (max-width: 900px) {
                         .gc-grid { grid-template-columns: repeat(2, 1fr); }
                     }
@@ -1137,7 +1421,7 @@ Associates </h2>                </div>
                                 <h3 class="gc-title">Meta Monetization</h3>
                                 <p class="gc-desc">Unlock ad-break and in-stream revenue across your Facebook pages with optimization and monetization audits.</p>
                                 <a href="#ContactUs" class="gc-cta">Get Started
-                                    <svg class="gc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                    <svg class="gc-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                 </a>
                             </div>
                         </div>
@@ -1148,7 +1432,7 @@ Associates </h2>                </div>
                                 <h3 class="gc-title">Digital Advertising</h3>
                                 <p class="gc-desc">ROI-driven ad strategies, data analytics, and creative ad development that reach the right audience.</p>
                                 <a href="#ContactUs" class="gc-cta">Get Started
-                                    <svg class="gc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                    <svg class="gc-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                 </a>
                             </div>
                         </div>
@@ -1159,7 +1443,7 @@ Associates </h2>                </div>
                                 <h3 class="gc-title">Influencer Marketing</h3>
                                 <p class="gc-desc">End-to-end campaign management with access to top-tier influencers and real-time performance insights.</p>
                                 <a href="#ContactUs" class="gc-cta">Get Started
-                                    <svg class="gc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                    <svg class="gc-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                 </a>
                             </div>
                         </div>
@@ -1170,7 +1454,7 @@ Associates </h2>                </div>
                                 <h3 class="gc-title">Content Creation &amp; Management</h3>
                                 <p class="gc-desc">Customized content strategies, cross-platform management, and monthly performance reports.</p>
                                 <a href="#ContactUs" class="gc-cta">Get Started
-                                    <svg class="gc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                    <svg class="gc-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                 </a>
                             </div>
                         </div>
@@ -1181,7 +1465,7 @@ Associates </h2>                </div>
                                 <h3 class="gc-title">Online Reputation Management</h3>
                                 <p class="gc-desc">Monitoring, influencing, and maintaining your brand's online presence.</p>
                                 <a href="#ContactUs" class="gc-cta">Get Started
-                                    <svg class="gc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                    <svg class="gc-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                 </a>
                             </div>
                         </div>
@@ -1192,7 +1476,7 @@ Associates </h2>                </div>
                                 <h3 class="gc-title">Public Relations</h3>
                                 <p class="gc-desc">Managing your brand's overall image through media coverage, press releases, and strategic communication.</p>
                                 <a href="#ContactUs" class="gc-cta">Get Started
-                                    <svg class="gc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                    <svg class="gc-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                 </a>
                             </div>
                         </div>
@@ -1310,6 +1594,26 @@ Associates </h2>                </div>
                 </div>
             </div>
         </form>
+        <script>
+        (function () {
+            var form = document.querySelector('#ContactUs .elementor-form');
+            if (!form) return;
+            var btn = form.querySelector('button[type="submit"]');
+            if (!btn) return;
+            var label = btn.querySelector('.elementor-button-text');
+            var originalText = label ? label.textContent : '';
+            form.addEventListener('submit', function () {
+                btn.disabled = true;
+                btn.classList.add('is-loading');
+                if (label) label.textContent = 'Sending...';
+                setTimeout(function () {
+                    btn.disabled = false;
+                    btn.classList.remove('is-loading');
+                    if (label) label.textContent = originalText;
+                }, 8000);
+            });
+        })();
+        </script>
                         </div>
                 </div>
                 </div>
@@ -1324,7 +1628,7 @@ Associates </h2>                </div>
         <div class="elementor-element elementor-element-6ffcdfb6 e-con-full e-flex e-con e-child" data-id="6ffcdfb6" data-element_type="container" data-e-type="container">
                 <div class="elementor-element elementor-element-7957b43 elementor-invisible elementor-widget elementor-widget-image" data-id="7957b43" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="image.default">
                 <div class="elementor-widget-container">
-                                                            <img width="924" height="232" src="https://adgoat.in/wp-content/uploads/2025/01/AdGoat.png" class="attachment-full size-full wp-image-18" alt="" srcset="https://adgoat.in/wp-content/uploads/2025/01/AdGoat.png 924w, https://adgoat.in/wp-content/uploads/2025/01/AdGoat-300x75.png 300w, https://adgoat.in/wp-content/uploads/2025/01/AdGoat-768x193.png 768w" sizes="(max-width: 924px) 100vw, 924px" />                                                            </div>
+                                                            <img width="924" height="232" src="https://adgoat.in/wp-content/uploads/2025/01/AdGoat.png" class="attachment-full size-full wp-image-18" alt="AdGoat" loading="lazy" srcset="https://adgoat.in/wp-content/uploads/2025/01/AdGoat.png 924w, https://adgoat.in/wp-content/uploads/2025/01/AdGoat-300x75.png 300w, https://adgoat.in/wp-content/uploads/2025/01/AdGoat-768x193.png 768w" sizes="(max-width: 924px) 100vw, 924px" />                                                            </div>
                 </div>
                 <div class="elementor-element elementor-element-25a7213 elementor-invisible elementor-widget elementor-widget-heading" data-id="25a7213" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
@@ -1337,29 +1641,6 @@ Associates </h2>                </div>
                 <div class="elementor-element elementor-element-39c6b65c elementor-invisible elementor-widget elementor-widget-heading" data-id="39c6b65c" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
                     <p class="elementor-heading-title elementor-size-default">© 2025 AdGoat India. All rights reserved.</p>                </div>
-                </div>
-                </div>
-        <div class="elementor-element elementor-element-11c4b03d e-con-full e-flex e-con e-child" data-id="11c4b03d" data-element_type="container" data-e-type="container">
-                <div class="elementor-element elementor-element-4a4dbba4 e-grid-align-right e-grid-align-mobile-center elementor-shape-rounded elementor-grid-0 elementor-invisible elementor-widget elementor-widget-social-icons" data-id="4a4dbba4" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;}" data-widget_type="social-icons.default">
-                <div class="elementor-widget-container">
-                            <div class="elementor-social-icons-wrapper elementor-grid" role="list">
-                            <span class="elementor-grid-item" role="listitem">
-                    <a class="elementor-icon elementor-social-icon elementor-social-icon-instagram elementor-repeater-item-993ef04" href="https://www.instagram.com/_adgoat" target="_blank">
-                        <span class="elementor-screen-only">Instagram</span>
-                        <svg aria-hidden="true" class="e-font-icon-svg e-fab-instagram" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>                    </a>
-                </span>
-                            <span class="elementor-grid-item" role="listitem">
-                    <a class="elementor-icon elementor-social-icon elementor-social-icon-linkedin-in elementor-repeater-item-2e0365b" href="https://www.linkedin.com/in/agoat-india-marketing-services-llp-61708a34b/" target="_blank">
-                        <span class="elementor-screen-only">Linkedin-in</span>
-                        <svg aria-hidden="true" class="e-font-icon-svg e-fab-linkedin-in" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path></svg>                    </a>
-                </span>
-                            <span class="elementor-grid-item" role="listitem">
-                    <a class="elementor-icon elementor-social-icon elementor-social-icon-whatsapp elementor-repeater-item-7f6a511" href="https://wa.me/+918828788286" target="_blank">
-                        <span class="elementor-screen-only">Whatsapp</span>
-                        <svg aria-hidden="true" class="e-font-icon-svg e-fab-whatsapp" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>                    </a>
-                </span>
-                    </div>
-                        </div>
                 </div>
                 </div>
                 </div>
@@ -1671,7 +1952,13 @@ function initLightfall(container, opts) {
     }
     renderer.render({ scene: mesh });
   }
-  requestAnimationFrame(loop);
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    uniforms.iTime.value = 0;
+    renderer.render({ scene: mesh });
+  } else {
+    requestAnimationFrame(loop);
+  }
 }
 
 const lightfallBg = document.getElementById('lightfall-bg');

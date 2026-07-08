@@ -116,9 +116,13 @@
     }
     .mobile-menu-popover .mobile-menu-link:hover { background-color: var(--base); color: var(--hover-text,#fff); }
     @media (max-width: 768px) {
-      .pill-desktop-only { display: none; }
-      .pill-mobile-only  { display: block; }
-      .mobile-menu-button { display: flex; }
+      .pill-desktop-only { display: none !important; }
+      .pill-mobile-only  { display: block !important; }
+      .mobile-menu-button { display: flex !important; }
+      .pill-logo { display: none !important; }
+      .pill-nav-container { left: auto !important; right: 16px !important; transform: none !important; }
+      .pill-nav { justify-content: flex-end !important; }
+      .mobile-menu-popover { left: auto; right: 0; min-width: 180px; }
     }
 
     /* ── Shared layout tokens ── */
