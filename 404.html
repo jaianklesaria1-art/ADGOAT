@@ -6,29 +6,72 @@
 <title>Page not found | AdGoat</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --bg: #0b0d14; --ink: #ffffff; --muted: #b8bfcc; --accent: #00C2FF; --on-accent: #0b0d14; }
+  /* AdGoat: deep navy night, falling light streaks, white pill nav, cyan-to-pink gradient */
+  :root { --bg: #060814; --ink: #ffffff; --muted: rgba(255,255,255,.72); --cyan: #00C2FF; --pink: #ec4899; }
   * { box-sizing: border-box; }
-  html, body { margin: 0; min-height: 100%; }
-  body { min-height: 100vh; display: grid; place-items: center; padding: 40px 16px; background: var(--bg); color: var(--ink); font-family: 'Sora', system-ui, sans-serif; }
-  main { max-width: 560px; text-align: center; }
-  .code { margin: 0; font-family: 'Sora', system-ui, sans-serif; font-size: clamp(88px, 22vw, 160px); line-height: .9; color: var(--accent); }
-  h1 { margin: 18px 0 10px; font-family: 'Sora', system-ui, sans-serif; font-size: clamp(26px, 5vw, 36px); line-height: 1.1; font-weight: 700; }
-  p { margin: 0 auto 28px; max-width: 42ch; color: var(--muted); font-size: 17px; line-height: 1.55; }
-  nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-  nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1.5px solid var(--ink); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 15px; }
-  nav a:first-child { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-  nav a:hover { opacity: .85; }
-  nav a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; color: var(--ink); font-family: 'Sora', sans-serif; overflow-x: hidden;
+    background: radial-gradient(ellipse at 50% -10%, #2b3a8c 0%, #11163a 38%, var(--bg) 75%); }
+  .streaks { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  .streaks i { position: absolute; top: -40%; width: 1.5px; height: 40%; border-radius: 2px; opacity: .55;
+    background: linear-gradient(180deg, transparent, rgba(150,220,255,.9)); animation: fall linear infinite; }
+  @keyframes fall { to { transform: translateY(260vh); } }
+  header { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px clamp(16px, 4vw, 48px); }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-size: 30px; font-weight: 600; letter-spacing: -.01em; }
+  .brand img { height: 40px; width: auto; }
+  .pills { display: flex; gap: 6px; }
+  .pills a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #fff; color: #0b0d14;
+    font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; }
+  .pills a:hover { background: var(--cyan); }
+  main { position: relative; z-index: 2; flex: 1; display: flex; align-items: center; padding: 24px clamp(16px, 6vw, 96px) 72px; }
+  .wrap { max-width: 760px; }
+  .kicker { margin: 0 0 6px; font-size: clamp(16px, 2.2vw, 20px); font-weight: 600; }
+  h1 { margin: 0; font-size: clamp(110px, 24vw, 230px); font-weight: 800; line-height: .9; letter-spacing: -.05em;
+    background: linear-gradient(135deg, var(--cyan), var(--pink)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2 { margin: 10px 0 12px; font-size: clamp(30px, 5vw, 50px); font-weight: 600; line-height: 1.1; letter-spacing: -.02em; }
+  p { margin: 0 0 32px; max-width: 46ch; color: var(--muted); font-size: 17px; line-height: 1.6; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .ctas a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 26px; border-radius: 6px; color: #fff; font-weight: 700; font-size: 14px;
+    letter-spacing: .08em; text-transform: uppercase; text-decoration: none; border: 1.5px solid rgba(255,255,255,.5); }
+  .ctas a.primary { background: linear-gradient(135deg, var(--cyan), var(--pink)); border-color: transparent; }
+  .ctas a:hover { filter: brightness(1.1); border-color: #fff; }
+  a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  footer { position: relative; z-index: 2; padding: 0 16px 26px; text-align: center; font-size: 13px; color: var(--muted); }
+  footer a { color: inherit; }
+  @media (max-width: 600px) { .brand { font-size: 24px; } .brand img { height: 32px; } .pills a { padding: 0 12px; font-size: 12px; } .ctas a { flex: 1 1 100%; justify-content: center; } }
+  @media (prefers-reduced-motion: reduce) { .streaks { display: none; } }
 </style>
 </head>
 <body>
+<div class="streaks" aria-hidden="true" id="streaks"></div>
+<header>
+  <a class="brand" href="/">AdGoat <img src="https://ik.imagekit.io/jai777/ADgoat/Screenshot_2026-06-24_213637-removebg-preview.png" alt=""></a>
+  <nav class="pills" aria-label="Main"><a href="/">Home</a><a href="/about.html">About</a></nav>
+</header>
 <main>
-  <p class="code" aria-hidden="true">404</p>
-  <h1>This page isn&#x27;t here</h1>
-  <p>The link may be old. Everything about AdGoat is still on the home page.</p>
-  <nav aria-label="Where to go next"><a href="/">Go to the home page</a><a href="/about.html">About us</a></nav>
+  <div class="wrap">
+    <p class="kicker">This one didn't go viral.</p>
+    <h1>404</h1>
+    <h2>Page not found</h2>
+    <p>The link may be old, or the page has moved. Everything about growing your revenue with AdGoat is still on the home page.</p>
+    <div class="ctas"><a class="primary" href="/">Back to home</a><a href="/about.html">About us</a></div>
+  </div>
 </main>
+<footer>&copy; 2025 AdGoat India &middot; <a href="/privacy.html">Privacy</a></footer>
+<script>
+  // light streaks, like the home hero (decorative)
+  (function () {
+    var box = document.getElementById("streaks"), n = window.innerWidth < 600 ? 22 : 48;
+    for (var i = 0; i < n; i++) {
+      var s = document.createElement("i");
+      s.style.left = Math.random() * 100 + "%";
+      s.style.animationDuration = 2.5 + Math.random() * 4 + "s";
+      s.style.animationDelay = -Math.random() * 6 + "s";
+      s.style.opacity = (0.2 + Math.random() * 0.6).toFixed(2);
+      box.appendChild(s);
+    }
+  })();
+</script>
 </body>
 </html>
